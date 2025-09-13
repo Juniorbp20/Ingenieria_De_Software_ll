@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor Farmacéutico</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <i class="fas fa-prescription-bottle-alt me-2"></i>Gestor Farmacéutico
+        </a>
+    </div>
+</nav>
+
+<div id="content" class="container mt-4">
+    <!-- El contenido de los componentes se cargará aquí -->
+    <div class="d-flex justify-content-around flex-wrap">
+        <div class="card text-center mb-3 shadow-lg" style="width: 18rem;">
+            <div class="card-body">
+                <i class="fas fa-box-open fa-4x text-primary mb-3"></i>
+                <h5 class="card-title">Inventario</h5>
+                <p class="card-text">Gestiona los productos farmacéuticos.</p>
+                <button class="btn btn-primary btn-block" data-component="inventario">Ir a Inventario</button>
+            </div>
+        </div>
+        <div class="card text-center mb-3 shadow-lg" style="width: 18rem;">
+            <div class="card-body">
+                <i class="fas fa-cash-register fa-4x text-success mb-3"></i>
+                <h5 class="card-title">Ventas</h5>
+                <p class="card-text">Procesa ventas y genera facturas.</p>
+                <button class="btn btn-success btn-block" data-component="ventas">Ir a Ventas</button>
+            </div>
+        </div>
+        <div class="card text-center mb-3 shadow-lg" style="width: 18rem;">
+            <div class="card-body">
+                <i class="fas fa-file-invoice-dollar fa-4x text-warning mb-3"></i>
+                <h5 class="card-title">Cuentas por Cobrar</h5>
+                <p class="card-text">Administra las deudas de los clientes.</p>
+                <button class="btn btn-warning btn-block" data-component="cuentas">Ir a Cuentas</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script type="module" src="main.js"></script>
+</body>
+</html>

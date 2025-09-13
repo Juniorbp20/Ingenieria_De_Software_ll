@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Usuarios</title>
+</head>
+<body>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4">Gestión de Usuarios</h2>
+        <div class="card shadow-lg p-4">
+            <h5 class="card-title">Crear Nuevo Usuario</h5>
+            <form id="userForm" class="row g-3">
+                <div class="col-md-6">
+                    <label for="username" class="form-label">Usuario</label>
+                    <input type="text" class="form-control" id="username" required>
+                </div>
+                <div class="col-md-6">
+                    <label for="password" class="form-label">Contraseña</label>
+                    <input type="password" class="form-control" id="password" required>
+                </div>
+                <div class="col-12">
+                    <label for="role" class="form-label">Rol</label>
+                    <select class="form-select" id="role" required>
+                        <option value="dependiente">Dependiente</option>
+                        <option value="caja">Caja</option>
+                        <option value="almacen">Almacén</option>
+                        <option value="administrador">Administrador</option>
+                    </select>
+                </div>
+                <div class="col-12 text-end">
+                    <button type="submit" class="btn btn-primary">Crear Usuario</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="card shadow-lg p-4 mt-5">
+            <h5 class="card-title">Usuarios Registrados</h5>
+            <div class="table-responsive">
+                <table class="table table-hover mt-3">
+                    <thead>
+                        <tr>
+                            <th>Usuario</th>
+                            <th>Rol</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody id="usersTableBody">
+                        <!-- Aquí se cargarán los usuarios dinámicamente -->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
