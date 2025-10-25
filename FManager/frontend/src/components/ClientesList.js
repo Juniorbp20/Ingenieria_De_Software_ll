@@ -1,5 +1,6 @@
 // src/components/ClientesList.js
 import React, { useState } from "react";
+import "./ClientesList.css";
 import DataTable from "react-data-table-component";
 
 function ClientesList({
@@ -65,7 +66,7 @@ function ClientesList({
       name: "Fecha Creación",
       selector: (row) => new Date(row.FechaCreacion).toLocaleDateString(),
       sortable: true,
-      width: "130px",
+      width: "120px",
       wrap: true,
     },
     {
@@ -75,7 +76,7 @@ function ClientesList({
           ? new Date(row.FechaModificacion).toLocaleDateString()
           : "-",
       sortable: true,
-      width: "130px",
+      width: "120px",
       wrap: true,
     },
     {
@@ -107,8 +108,8 @@ function ClientesList({
   const paginacionOpciones = {
     rowsPerPageText: "Filas:",
     rangeSeparatorText: "de",
-    selectAllRowsItem: true,
-    selectAllRowsItemText: "Todo",
+    // selectAllRowsItem: true,
+    // selectAllRowsItemText: "Todo",
   };
 
   // Filtrar clientes según búsqueda
@@ -137,6 +138,7 @@ function ClientesList({
         />
       </div>
 
+      <div className="table-container">
       <DataTable
         columns={columns}
         data={clientesFiltrados}
@@ -148,7 +150,7 @@ function ClientesList({
         noWrap={false}
         paginationComponentOptions={paginacionOpciones}
         paginationPerPage={5}
-        paginationRowsPerPageOptions={[5, 10, 20, 50, 100]}
+        paginationRowsPerPageOptions={[5, 10, 20, 50]}
         noDataComponent="No se encontraron datos que coincidan con la búsqueda"
         customStyles={{
           cells: {
@@ -162,11 +164,12 @@ function ClientesList({
           headCells: {
             style: {
               whiteSpace: "normal !important",
-              fontWeight: "bold"
             },
           },
         }}
       />
+      </div>
+
     </div>
   );
 }

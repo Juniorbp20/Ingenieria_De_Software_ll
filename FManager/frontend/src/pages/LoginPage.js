@@ -1,6 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 // src/pages/LoginPage.js
 import React, { useState, useRef, useEffect, useCallback } from 'react';
+import './LoginPage.css';
 import { login } from '../services/authService';
 import { gsap, Power2, Quad } from 'gsap';
 
@@ -251,6 +252,7 @@ function LoginPage({ onLogin }) {
   };
 
   return (
+    <div className="login-page-wrapper">
     <div className="container d-flex align-items-center justify-content-center" style={{ minHeight: '100vh' }}>
       <div className="row w-100">
         <div className="col-12 col-sm-8 col-md-6 col-lg-4 mx-auto">
@@ -352,7 +354,7 @@ function LoginPage({ onLogin }) {
 
           <div className="card card-form-login shadow-sm" style={{ border: '3px solid #E2ECFF', borderRadius: '15px', fontFamily: 'Roboto', userselect: 'none', padding: '10px 0'}}>
             <div className="card-body p-4">
-              <h3 className="text-center mb-4" style={{ fontWeight: '600' }}>Iniciar Sesión</h3>
+              <h3 className="text-center mb-4">Iniciar Sesión</h3>
               {error && (
                 <div className="alert alert-danger" role="alert">
                   {error}
@@ -367,7 +369,7 @@ function LoginPage({ onLogin }) {
                     className="form-control"
                     value={username}
                     onChange={(e) => setUsername(e.target.value)}
-                    placeholder="Ingrese su usuario"
+                    placeholder="usuario1234"
                     onFocus={handleEmailFocus}
                     onBlur={handleEmailBlur}
                   />
@@ -387,7 +389,7 @@ function LoginPage({ onLogin }) {
                       className="form-control"
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
-                      placeholder="Ingrese su contraseña"
+                      placeholder="••••••••"
                       onFocus={handlePasswordFocus}
                       onBlur={handlePasswordBlur}
                     />
@@ -401,7 +403,7 @@ function LoginPage({ onLogin }) {
                     </button>
                   </div>
                     {validationErrors.password && (
-                      <span className="text-danger" style={{ fontSize: '0.9rem' }}>
+                      <span className="text-danger" style={{ fontSize: '0.9rem'}}>
                         {validationErrors.password}
                       </span>
                     )}
@@ -413,12 +415,13 @@ function LoginPage({ onLogin }) {
               </form>
             </div>
           </div>
-          <p className="text-center text-muted mt-2 user-select-none" style={{ fontSize: '0.8rem', fontFamily: 'Roboto', opacity:'0.6', width:'70%', margin:'0 auto', lineHeight:'1'}}>
+          <p className="texto-aviso">
             Acceso restringido. Contacte al administrador principal si no tiene credenciales.
           </p>
         </div>
       </div>
     </div>
+  </div>
   );
 }
 
