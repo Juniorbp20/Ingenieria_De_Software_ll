@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import "./ClientesPage.css";
 import ClienteForm from "../components/ClienteForm";
 import ClientesList from "../components/ClientesList";
-import CustomButton from "../components/recursos/CustomButton";
 import Toast from "../components/recursos/Toast";
 import { extractErrorMessage } from '../utils/Utils'; 
 
@@ -14,6 +13,36 @@ import {
   updateCliente,
   deleteCliente,
 } from "../services/clientesService";
+
+function SectionMenu({ options = [], active, onSelect }) {
+  // Opciones del menú (mostrar "Agregar" solo para admin)
+  
+
+  /* const menuOptions = [
+    { key: "ver", label: "Ver Clientes", icon: "bi bi-people" },
+    ...(user?.rol === "admin"
+      ? [{ key: "agregar", label: "Agregar Cliente", icon: "bi bi-person-plus" }]
+      : []),
+  ]; */
+
+  return (
+    <div className="clientes-menu d-flex justify-content-end border-bottom pb-2 mb-3">
+      <div className="btn-group" role="group" aria-label="Clientes sections">
+        {options.map((opt) => (
+          <button
+            key={opt.key}
+            type="button"
+            className={`btn ${active === opt.key ? "btn-primary" : "btn-outline-primary"}`}
+            onClick={() => onSelect(opt.key)}
+          >
+            {opt.icon ? <i className={`${opt.icon} me-2`} aria-hidden="true"></i> : null}
+            <span>{opt.label}</span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
 
 function ClientesPage({ user }) {
   const [clientes, setClientes] = useState([]);
@@ -26,9 +55,10 @@ function ClientesPage({ user }) {
   const [showModalEliminar, setShowModalEliminar] = useState(false);
   const [clienteSeleccionado, setClienteSeleccionado] = useState(null);
   const [showModalEditar, setShowModalEditar] = useState(false);
+  const [showModalActivar, setShowModalActivar] = useState(false);
 
-  // Vistas: 'inicio', 'agregar', 'ver'
-  const [vistaActual, setVistaActual] = useState("inicio");
+  // Vistas: 'agregar', 'ver' (por defecto 'ver')
+  const [vistaActual, setVistaActual] = useState("ver");
 
   // Para la notificacion
   const [toastKey, setToastKey] = useState(Date.now());
@@ -71,11 +101,7 @@ function ClientesPage({ user }) {
     setClienteEditando(cliente);
     setShowModalEditar(true);
   };
-  const handleVolver = () => {
-    setVistaActual("inicio");
-    setMensaje("");
-    setClienteEditando(null);
-  };
+  
   const abrirModalEliminar = (cliente) => {
     setClienteSeleccionado(cliente);
     setShowModalEliminar(true);
@@ -108,9 +134,17 @@ function ClientesPage({ user }) {
     setShowModalEditar(false);
     setClienteEditando(null);
   };
+  const abrirModalActivar = (cliente) => { setClienteSeleccionado(cliente); setShowModalActivar(true); };
+
+  const menuOptions = [
+    { key: "ver", label: "Ver Clientes", icon: "bi bi-people" },
+    ...(user?.rol === "admin" ? [{ key: "agregar", label: "Agregar Cliente", icon: "bi bi-person-plus" }] : []),
+  ];
 
   return (
     <div className="clientes-page-container container py-3">
+      <SectionMenu options={menuOptions} active={vistaActual} onSelect={setVistaActual} />
+
       <div className="mb-3">
         {vistaActual === "inicio" && (
           <h1 className="page-title display-5 fw-bold text-uppercase text-center opacity-75">
@@ -151,7 +185,7 @@ function ClientesPage({ user }) {
 
       {vistaActual === "agregar" && (
         <>
-          <CustomButton onClick={handleVolver} />
+          
           <div className="clientes-form-wrapper">
             <h2 className="form-title">
               {clienteEditando ? "Editar cliente:" : ""}
@@ -167,12 +201,13 @@ function ClientesPage({ user }) {
 
       {vistaActual === "ver" && (
         <>
-          <CustomButton onClick={handleVolver} />
+          
           <div className="clientes-list-wrapper">
             <ClientesList
               clientes={clientes}
               onEdit={user?.rol === "admin" ? handleEdit : undefined}
               onDelete={user?.rol === "admin" ? abrirModalEliminar : undefined}
+              onActivate={user?.rol === "admin" ? abrirModalActivar : undefined}
               canEdit={user?.rol === "admin"}
               canDelete={user?.rol === "admin"}
             />
@@ -225,8 +260,37 @@ function ClientesPage({ user }) {
           </div>
         </div>
       )}
+    
+      {showModalActivar && clienteSeleccionado && (
+        <div className="modal-overlay modal-delete">
+          <div className="modal-content modal-delete-content">
+            <h3>Confirmar Activación</h3>
+            <p>
+              ¿Desea activar al cliente <strong> {clienteSeleccionado.Nombres} {clienteSeleccionado.Apellidos}c</strong>?
+            </p>
+            <div className="modal-buttons">
+              <button className="btn btn-confirm" onClick={async ()=>{ try { await updateCliente(clienteSeleccionado.ClienteID, { Activo: true }); setMensaje("Cliente activado"); setTipoMensaje("success"); await cargarDatos(); } catch(e){ setMensaje("Error al activar: " + (e?.message||'')); setTipoMensaje("error"); } finally { setToastKey(Date.now()); setShowModalActivar(false); setClienteSeleccionado(null);} }}>
+                Confirmar
+              </button>
+              <button className="btn btn-cancel" onClick={()=>{ setShowModalActivar(false); setClienteSeleccionado(null); }}>
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
 
 export default ClientesPage;
+
+
+
+
+
+
+
+
+
+
